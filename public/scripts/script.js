@@ -11,7 +11,7 @@ function updatePosts() {
 
         let posts = JSON.parse(json)
 
-        posts.forEach((posts) => {
+        posts.forEach((post) => {
             let postElement = `
                 <div id="${post.id}" class="card mb-4">
                     <div class="card-header">
@@ -26,6 +26,29 @@ function updatePosts() {
         })
 
         document.getElementById("posts").innerHTML = postElements
+    })
+
+}
+
+function newPost() {
+
+    let title = document.getElementById("title").value
+    let description = document.getElementById("desc").value
+
+    let post = {title, description}
+
+    const options = {
+        method: "POST",
+        headers: new Headers({"content-type": "aplication/json"}),
+        body: JSON.stringify(post)
+        
+    }
+
+    fetch("http://localhost:3000/api/new", options).then(res => {
+        updatePosts()
+
+        document.getElementById("title").value = ""
+        document.getElementById("desc").value = ""
     })
 
 }
